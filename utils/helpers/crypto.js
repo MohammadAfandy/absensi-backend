@@ -1,6 +1,10 @@
+const dotenv = require("dotenv");
+
+dotenv.config({ path: "./.env" });
+
 const crypto = require("crypto");
 const algorithm = "aes-192-cbc";
-const password = "absensiapp";
+const password = process.env.SECRET_CRYPTO;
 const key = crypto.scryptSync(password, "salt", 24);
 const iv = Buffer.alloc(16, 0);
 
