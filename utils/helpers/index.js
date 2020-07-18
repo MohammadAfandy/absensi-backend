@@ -11,16 +11,9 @@ const iv = Buffer.alloc(16, 0);
 
 module.exports = {
   response: (res, response) => {
-    if (response.status >= 200 && response.status < 300) {
-      message = "Success";
-    } else if (response.status >= 400 && response.status < 500) {
-      message = "Error";
-    } else {
-      message = "Internal Server Error";
-    }
-    res.status(response.status).json({
-      status: response.status || 400,
-      message: response.message || message,
+    res.status(response.status || 200).json({
+      status: response.status || 200,
+      message: response.message || "Success",
       data: response.data || {},
     });
   },

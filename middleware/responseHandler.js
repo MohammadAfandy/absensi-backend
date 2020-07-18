@@ -7,15 +7,20 @@ const errorHandler = (err, req, res, next) => {
       err.message = "Validation Error";
       errorData = formatValidationError(err.errors);
       break;
+    case "JsonWebTokenError":
+      err.statusCode = 401;
+      err.message = "Invalid Token";
+    case "TokenExpiredError":
+      err.statusCode = 403;
+      err.message = "Expired Token";
 
     default:
-      err.statusCode = 500;
       err.message = err.message || "Internal Server Error";
       errorData = {};
   }
 
   response(res, {
-    status: err.statusCode,
+    status: err.statusCode || 500,
     message: err.message,
     data: errorData,
   });
