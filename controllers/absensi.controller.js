@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Absensi = require("../models/absensi.model");
 const { decrypt, response } = require("../utils/helpers");
+const { BadRequestError } = require("../utils/helpers/error");
 
 module.exports = {
   find: async (req, res, next) => {
@@ -13,10 +14,8 @@ module.exports = {
   },
   findOne: async (req, res, next) => {
     try {
-      if (mongoose.isValidObjectId(req.params.id)) {
-        let data = await Absensi.findById(req.params.id).populate("pegawai").lean().exec();
-        response(res, { status: 200, data: data });
-      }
+      let data = await Absensi.findById(req.params.id).populate("pegawai").lean().exec();
+      response(res, { status: 200, data: data });
     } catch (error) {
       next(error);
     }
@@ -37,9 +36,7 @@ module.exports = {
 
       if (absensi) {
         if (absensi.out) {
-          let error = new Error(`${absensi.pegawai.nama} sudah absen masuk dan keluar hari ini`);
-          error.statusCode = 400;
-          next(error);
+          throw new BadRequestError(`${absensi.pegawai.nama} sudah absen masuk dan keluar hari ini`);
         } else {
           absensi.out = now;
           let data = await Absensi.findByIdAndUpdate(absensi._id, {

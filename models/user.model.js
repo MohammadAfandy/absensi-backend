@@ -21,7 +21,7 @@ const UserSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["admin", "public"],
+      enum: ["admin", "pegawai"],
     },
   },
   {
@@ -59,7 +59,7 @@ UserSchema.statics.validateUser = async function ({ username, password }) {
       };
     }
   }
-  return false;
+  return;
 };
 
 UserSchema.virtual("pegawai", {
