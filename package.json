@@ -22,7 +22,7 @@
     "mongoose": "^5.9.21",
     "mongoose-unique-validator": "^2.0.3",
     "qrcode": "^1.4.4",
-    "redis": "^3.0.2"
+    "redis": "^3.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
